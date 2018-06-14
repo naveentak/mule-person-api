@@ -13,8 +13,7 @@ script:
 
 deploy:
   provider: releases
-  user: "naveentak"
-  password: "akshay29"
+  api_key: "f2824225fd771f3f08b25d04a75e076319d91c83"
   file: "/home/travis/build/naveentak/mule_projects/personapi/target/personapi-1.0.0-SNAPSHOT-mule-application.jar"
   skip_cleanup: true
   on:
