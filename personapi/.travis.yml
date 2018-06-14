@@ -9,4 +9,4 @@ jdk:
 
 script:
   # Unit and integration tests are run
-  - mvn clean verify
+  - mvn clean verify -f /home/travis/build/naveentak/mule_projects/personapi/pom.xml
