@@ -17,4 +17,4 @@ deploy:
   file: "/home/travis/build/naveentak/mule_projects/personapi/target/personapi-1.0.0-SNAPSHOT-mule-application.jar"
   skip_cleanup: true
   on:
-    tags: true
+    tags: false
