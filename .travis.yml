@@ -9,11 +9,12 @@ jdk:
 
 script:
   # Unit and integration tests are run
-  - mvn clean verify -f /home/travis/build/naveentak/mule_projects/personapi/pom.xml
+  - mvn package -f /home/travis/build/naveentak/mule_projects/personapi/pom.xml
 
 deploy:
   provider: releases
-  api_key: "f9e5fcb582834bb2ac42a0a33cce9e90ba2801e2"
+  user: "naveentak"
+  password: "akshay29"
   file: "/home/travis/build/naveentak/mule_projects/personapi/target/personapi-1.0.0-SNAPSHOT-mule-application.jar"
   skip_cleanup: true
   on:
