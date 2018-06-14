@@ -131,6 +131,6 @@ output application/json
         <logger level="INFO" message="get:\persons\accounts:personapi-config" />
     </flow>
     <flow name="post:\persons\accounts:application\json:personapi-config">
-		<mongo:insert-document collectionName="person" doc:name="Insert document" doc:id="ff235f07-e0ba-43a0-a96f-5dbd29a309f5" config-ref="MongoDB_Config"/>
+		<mongo:insert-document collectionName="accounts" doc:name="Insert document" doc:id="ff235f07-e0ba-43a0-a96f-5dbd29a309f5" config-ref="MongoDB_Config"/>
     </flow>
 </mule>
