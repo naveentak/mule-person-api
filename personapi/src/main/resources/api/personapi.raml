@@ -1,0 +1,64 @@
+#%RAML 1.0
+title: New API
+baseUri: ''
+/persons/accounts:
+  get:
+    responses:
+      '200':
+        body:
+          application/json:
+            description: accountResponse
+            type: object
+            properties:
+              accountInfo:
+                required: true
+                description: account Details
+                type: object
+                properties:
+                  number:
+                    required: true
+                    example: 187186
+                    description: Property description
+                    type: number
+                  type:
+                    required: true
+                    example: cheque
+                    description: Property description
+                    type: string
+    queryParameters:
+      accountNumber:
+        example: Example
+        description: Property description
+        type: string
+        required: false
+  post:
+    responses:
+      '201': {}
+    body:
+      application/json:
+        type: object
+        properties:
+          accountInfo:
+            required: true
+            description: Property description
+            type: object
+            properties:
+              number:
+                required: true
+                example: 9747853694534
+                description: Property description
+                type: number
+              type:
+                required: true
+                example: Savings
+                description: Property description
+                type: string
+              branchName:
+                required: true
+                example: Johannesburg
+                description: Property description
+                type: string
+
+
+
+
