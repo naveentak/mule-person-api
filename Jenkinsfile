@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Example Build') {
             steps {
-                sh 'mvn clean'
+                sh 'mvn clean test'
             }
         }
     }
