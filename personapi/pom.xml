@@ -76,6 +76,16 @@
             <url>https://repository.mulesoft.org/releases/</url>
             <layout>default</layout>
         </repository>
+		<repository>
+  <id>naveentak-visualstudio.com-muledevops</id>
+  <url>https://naveentak.pkgs.visualstudio.com/_packaging/MuleDevOps/maven/v1</url>
+  <releases>
+    <enabled>true</enabled>
+  </releases>
+  <snapshots>
+    <enabled>true</enabled>
+  </snapshots>
+</repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
