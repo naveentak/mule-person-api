@@ -8,8 +8,8 @@ on:
   push:
     tags: 
     - '*'
-  branches:    
-      - 'releases/**'  
+    branches:    
+        - 'releases/**'  
   
 env:
   #Set environment related variables
