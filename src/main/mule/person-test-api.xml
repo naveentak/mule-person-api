@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="7f87000c-7414-4483-b736-06f5a37ef225" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="person-test-apiFlow" doc:id="f02f9cc5-bcfa-4f35-84dc-a9f0e66b579c" >
+		<http:listener doc:name="Listener" doc:id="dcbf685c-f357-492c-a381-99935afbe665" config-ref="HTTP_Listener_config" path="/api/hello"/>
+		<set-payload value="Hello World!" doc:name="Set Payload" doc:id="396f0576-591a-41c7-a9c5-28471548c952" />
+	</flow>
+</mule>
