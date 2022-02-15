@@ -36,7 +36,7 @@
 						<muleVersion>4.4.0</muleVersion>
 						<username>naveentak2022</username>
 						<password>Jaipur@29</password>
-						<applicationName>${project.artifactId}-dev</applicationName>
+						<applicationName>${project.artifactId}-${anypoint.application.env}</applicationName>
 						<environment>Sandbox</environment>
 						<region>eu-central-1</region>
 						<workers>1</workers>
