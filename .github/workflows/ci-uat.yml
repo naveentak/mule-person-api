@@ -1,0 +1,128 @@
+# This is a basic workflow to build and deploy to uat env
+
+name: ci-uat
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the release branches
+  push:
+    branches: 
+    - 'release/**'
+  
+env:
+  #Set environment related variables
+  VAR_ANYPOINT_ENV: UAT
+  VAR_APPLICATION_NAME_SUFFIX: uat
+  VAR_CLOUDHUB_APP_WORKERS: 2
+  VAR_CLOUDHUB_APP_WORKER_TYPE: MICRO 
+  
+  
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  
+  build:
+    # The type of runner that the job will run on
+    name: Maven Build and Upload
+    runs-on: ubuntu-18.04
+    environment: uat
+    # container:
+    #   image: maven:3.8.4-jdk-8
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    
+      #Setup Maven
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v4.2
+        with:
+          maven-version: 3.8.2
+      
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout ${{ github.event.repository.name }}
+        uses: actions/checkout@v2.4.0
+
+      # Checks-out settings repository under $GITHUB_WORKSPACE, so your job can access settings-file
+      - name: Checkout config repo
+        uses: actions/checkout@v2.4.0
+        with:
+          repository: Knauf-Group/daas-secure-settings
+          token: ${{ secrets.REPO_PAT }}
+          path: './config'
+
+
+      - name: Cache local maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      #Dependency download
+      - name: Download all dependencies
+        run: |
+          mvn dependency:get  --settings ./config/maven-settings/settings.xml -Dartifact=org.apache.maven:maven-plugin-api:2.0.6 -DrepoUrl="https://repo.maven.apache.org/maven2/org/apache/maven/maven-plugin-api/2.0.6/maven-plugin-api-2.0.6.pom"
+          mvn dependency:resolve --settings ./config/maven-settings/settings.xml
+          echo "VAR_APPLICATION_VERSION=$(mvn --settings ./config/maven-settings/settings.xml org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+          
+      
+      #Setup settings xml
+      #- name: Copy Settings file
+      #  run: |
+      #    mvn --version
+      #    mkdir ~/.m2          
+      #    cp settings.xml ~/.m2/settings.xml
+      
+      
+
+      # Runs a set of commands using the runners shell
+      - name: Build & Package
+        run: |
+          mvn --settings ./config/maven-settings/settings.xml clean package -DskipTests -DfinalName=${{ github.event.repository.name }}-$VAR_APPLICATION_VERSION-$GITHUB_RUN_NUMBER
+          
+     # Runs a set of commands using the runners shell
+      - name: Deploy to uat 
+        run: >
+          mvn mule:deploy --settings ./config/maven-settings/settings.xml 
+          -Dmule.artifact=./target/${{ github.event.repository.name }}-$VAR_APPLICATION_VERSION-$GITHUB_RUN_NUMBER-mule-application.jar  
+          -Denv=$VAR_APPLICATION_NAME_SUFFIX 
+          -Danypoint.platform.environment=$VAR_ANYPOINT_ENV 
+          -Danypoint.application.env=$VAR_APPLICATION_NAME_SUFFIX 
+          -Danypoint.platform.username=${{ secrets.ANYPOINT_PLATFORM_USERNAME }} 
+          -Danypoint.platform.password=${{ secrets.ANYPOINT_PLATFORM_PASSWORD }} 
+          -Danypoint.platform.region=eu-central-1 
+          -Danypoint.platform.workers=$VAR_CLOUDHUB_APP_WORKERS
+          -Danypoint.platform.workerType=$VAR_CLOUDHUB_APP_WORKER_TYPE
+          -Dapplication.salesforce.consumerSecret=${{ secrets.APPLICATION_SALESFORCE_CONSUMERSECRET }}
+          -Dapplication.salesforce.password=${{ secrets.APPLICATION_SALESFORCE_PASSWORD }}
+          -Dapplication.salesforce.token=${{ secrets.APPLICATION_SALESFORCE_TOKEN }}
+          
+      
+     # Upload build artifact    
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v2.3.1
+        with:
+          # Artifact name
+          name: uat-artifact
+          # A file, directory or wildcard pattern that describes what to upload
+          path: './target/*.jar'  
+
+  notify-teams:
+    needs: build
+    if: always() && needs.build.result == 'failure'
+    runs-on: ubuntu-latest
+    environment: uat
+    
+    steps:
+      - name: Notify build failure
+        
+        uses: aliencube/microsoft-teams-actions@v0.8.0
+        with:
+          webhook_uri: https://knauf.webhook.office.com/webhookb2/ef71bfc0-647d-46d6-8eab-1484d323d6eb@ad200093-0cba-48cb-9853-16fb53354a4d/IncomingWebhook/378e2fa63fef4d91a922e6d486163651/58318c31-2db8-42ba-ad5f-e150d2694a75
+          title: ${{ github.event.repository.name }}
+          text: 'Build step failed!'
+          theme_color: FF0000
+          sections: '[{ "activityTitle": "Workflow run" }]'
+          actions: '[{ "@type": "OpenUri", "name": "View", "targets": [{ "os": "default", "uri": "https://github.com/Knauf-Group/${{ github.event.repository.name }}/actions/runs/${{ github.run_id }}" }] }]'
+
+
+          
