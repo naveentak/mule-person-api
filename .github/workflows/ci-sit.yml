@@ -51,7 +51,7 @@ jobs:
       #Dependency download
       - name: Application Version
         run: |
-          echo "VAR_APPLICATION_VERSION=$(mvn --settings ./config/maven-settings/settings.xml org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+          echo "VAR_APPLICATION_VERSION=$(mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
           
       
       # Runs a set of commands using the runners shell
