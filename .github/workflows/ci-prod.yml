@@ -6,11 +6,9 @@ name: ci-prod
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches:    
-        - 'releases/**' 
     tags: 
     - '*'
-     
+    
   
 env:
   #Set environment related variables
@@ -27,6 +25,7 @@ jobs:
     # The type of runner that the job will run on
     name: Maven Build and Upload
     runs-on: ubuntu-18.04
+    if: github.ref == 'refs/heads/release'
     environment: prod
   
     steps:
