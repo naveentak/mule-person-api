@@ -21,7 +21,14 @@
 		<app.runtime>4.4.0-20211026</app.runtime>
 		<mule.maven.plugin.version>3.5.2</mule.maven.plugin.version>
 	</properties>
-
+	<distributionManagement>
+		<repository>
+			<id>mulesoft-releases</id>
+			<name>MuleSoft Releases Repository</name>
+			<url>https://repository.mulesoft.org/releases/</url>
+			<layout>default</layout>
+		</repository>
+	</distributionManagement>
 	<build>
 		<finalName>${finalName}</finalName>
 		<plugins>
