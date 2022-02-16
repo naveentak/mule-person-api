@@ -25,7 +25,7 @@ jobs:
     # The type of runner that the job will run on
     name: Maven Build and Upload
     runs-on: ubuntu-18.04
-    if: github.ref == 'refs/heads/release/**'
+    
     environment: prod
   
     steps:
