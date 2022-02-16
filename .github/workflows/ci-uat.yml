@@ -8,6 +8,8 @@ on:
   push:
     branches: 
     - 'release/**'
+    paths-ignore:
+    - 'pom.xml'
   
 env:
   #Set environment related variables
