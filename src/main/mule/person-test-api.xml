@@ -13,3 +13,4 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<set-payload value="Hello World!" doc:name="Set Payload" doc:id="396f0576-591a-41c7-a9c5-28471548c952" />
 	</flow>
 </mule>
+<!-- Comment to test workflow -->
