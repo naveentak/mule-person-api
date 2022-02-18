@@ -39,7 +39,7 @@ jobs:
       #Dependency download
       - name: Release Branch name
         run: |
-          export branch-name = git branch -a --contains tags/${{ github.ref.name}}
+          export branch-name=git branch -a --contains tags/${{ github.ref.name}}
           echo $branch-name
           
 
