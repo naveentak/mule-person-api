@@ -46,7 +46,7 @@ jobs:
       #Dependency download
       - name: Release Branch name
         run: |
-          git branch -a --contains tags/${{ github.ref.name}}
+          git branch -a --contains tags/${{ github.ref.name }}
           
           
 
