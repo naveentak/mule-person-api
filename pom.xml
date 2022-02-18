@@ -23,7 +23,7 @@
 	</properties>
 
 	<build>
-		<finalName>${finalName}</finalName>
+		<!-- <finalName>${finalName}</finalName> -->
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

@@ -59,7 +59,8 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Build & Package
         run: |
-          mvn clean package -DskipTests -DfinalName=${{ github.event.repository.name }}-$VAR_APPLICATION_VERSION-$GITHUB_RUN_NUMBER
+          mvn clean package -DskipTests
+          mv ./target/${{ github.event.repository.name }}-$VAR_APPLICATION_VERSION-mule-application.jar ./target/${{ github.event.repository.name }}-$VAR_APPLICATION_VERSION-$GITHUB_RUN_NUMBER-mule-application.jar
           
      # Runs a set of commands using the runners shell
       - name: Deploy to uat 
