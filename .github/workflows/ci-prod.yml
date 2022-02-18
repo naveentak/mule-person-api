@@ -36,20 +36,19 @@ jobs:
         with:
           maven-version: 3.8.2
       
+      
+
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout ${{ github.event.repository.name }}
+        uses: actions/checkout@v2.4.0
+        
+
       #Dependency download
       - name: Release Branch name
         run: |
-          export branch-name=git branch -a --contains tags/${{ github.ref.name}}
-          echo $branch-name
+          git branch -a --contains tags/${{ github.ref.name}}
           
-
-    #   # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    #   - name: Checkout ${{ github.event.repository.name }}
-    #     uses: actions/checkout@v2.4.0
-    #     with:
-    #       ref: 3.8.2
-
-     
+          
 
     #   - name: Cache local maven repository
     #     uses: actions/cache@v2
