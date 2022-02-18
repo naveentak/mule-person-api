@@ -49,13 +49,12 @@ jobs:
           echo tag name $GITHUB_REF_NAME
           
           echo branch name "${{ github.event.base_ref }}"
+          env 
 
-      - name: Get Branch
-        run: |
-          raw=$(git branch -r --contains ${{ github.ref }})
-          branch=${raw/origin\/}
-          echo ::set-env name=BRANCH::$branch
-      - run: echo ${{ env.BRANCH }}   
+      - name: Checkout ${{ github.event.repository.name }}
+        uses: actions/checkout@v2.4.0
+        with:
+          ref: "${{ github.event.base_ref }}"
           
 
     #   - name: Cache local maven repository
