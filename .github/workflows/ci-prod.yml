@@ -46,8 +46,8 @@ jobs:
       #Dependency download
       - name: Release Branch name
         run: |
-          echo branch name $GITHUB_REF
-          git branch -a --contains $GITHUB_REF
+          echo tag name $GITHUB_REF_NAME
+          echo branch name $(git branch -a --contains $GITHUB_REF_NAME)
           
           
 
