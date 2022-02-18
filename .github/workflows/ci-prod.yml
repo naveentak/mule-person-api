@@ -47,7 +47,7 @@ jobs:
       - name: Release Branch name
         run: |
           echo tag name $GITHUB_REF_NAME
-          echo branch name $(git branch -a --contains $GITHUB_REF_NAME)
+          echo branch name $(git branch -a --points-at $GITHUB_REF_NAME)
           
           
 
